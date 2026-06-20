@@ -1,0 +1,26 @@
+# Raw profiling data and generated scripts
+*.perf.data
+*.perf.data.old
+*.data.old
+*.data
+*.script
+*.perfscript
+
+# Build artifacts
+*.o
+*.a
+*.so
+*.d
+*.pyc
+__pycache__/
+
+# Local third-party checkouts / build trees
+task1/2-flamegraph/FlameGraph/
+task1/2-flamegraph/stress-ng/
+task1/3-cache-line-test/FlameGraph/
+
+# Local binaries
+task1/3-cache-line-test/cache_line_test
+
+# Oversized assignment/reference file; GitHub rejects files over 100 MB.
+task1/13849377.pdf

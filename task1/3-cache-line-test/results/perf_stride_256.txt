@@ -1,0 +1,24 @@
+# started on Thu Jun 18 18:52:54 2026
+
+
+ Performance counter stats for './cache_line_test 256 256 20':
+
+       792,359,281      cpu_atom/cycles/                                                        (1.89%)
+     1,089,940,579      cpu_core/cycles/                                                        (98.11%)
+     1,496,121,730      cpu_atom/instructions/           #    1.89  insn per cycle              (1.89%)
+     1,598,670,239      cpu_core/instructions/           #    1.47  insn per cycle              (98.11%)
+         5,370,561      cpu_atom/cache-references/                                              (1.89%)
+        38,571,547      cpu_core/cache-references/                                              (98.11%)
+         4,713,276      cpu_atom/cache-misses/           #   87.76% of all cache refs           (1.89%)
+        34,637,583      cpu_core/cache-misses/           #   89.80% of all cache refs           (98.11%)
+   <not supported>      cpu_atom/L1-dcache-load-misses/                                       
+        16,847,330      cpu_core/L1-dcache-load-misses/                                         (98.11%)
+               264      cpu_atom/LLC-load-misses/                                               (1.89%)
+        10,139,339      cpu_core/LLC-load-misses/                                               (98.11%)
+
+       0.199512317 seconds time elapsed
+
+       0.138616000 seconds user
+       0.060831000 seconds sys
+
+

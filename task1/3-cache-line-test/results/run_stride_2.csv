@@ -1,0 +1,2 @@
+array_size_mb,stride_bytes,repeat,accesses,elapsed_ns,ns_per_access,effective_MBps,sum
+256,2,20,2684354500,853885670,0.318,23984.475,18141449446548601072

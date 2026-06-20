@@ -1,0 +1,52 @@
+stress-ng: info:  [34566] setting to a 30 second run per stressor
+stress-ng: info:  [34566] dispatching hogs: 1 cpu
+stress-ng: info:  [34566] successful run completed in 30.00s
+
+ Performance counter stats for 'stress-ng --cpu 1 --cpu-method int64 -t 30s':
+
+     <not counted>      cpu_atom/cycles/                                                        (0.00%)
+   153,288,783,274      cpu_core/cycles/                                                        (57.14%)
+     <not counted>      cpu_atom/instructions/                                                  (0.00%)
+   468,212,854,318      cpu_core/instructions/           #    3.05  insn per cycle              (64.28%)
+     <not counted>      cpu_atom/cache-references/                                              (0.00%)
+         2,246,997      cpu_core/cache-references/                                              (64.29%)
+     <not counted>      cpu_atom/cache-misses/                                                  (0.00%)
+           293,489      cpu_core/cache-misses/           #   13.06% of all cache refs           (64.29%)
+     <not counted>      cpu_atom/L1-dcache-loads/                                               (0.00%)
+       157,827,104      cpu_core/L1-dcache-loads/                                               (64.29%)
+   <not supported>      cpu_atom/L1-dcache-load-misses/                                       
+         2,324,889      cpu_core/L1-dcache-load-misses/  #    1.47% of all L1-dcache accesses   (64.29%)
+     <not counted>      cpu_atom/L1-icache-load-misses/                                         (0.00%)
+        11,797,929      cpu_core/L1-icache-load-misses/                                         (64.29%)
+     <not counted>      cpu_atom/LLC-loads/                                                     (0.00%)
+           900,732      cpu_core/LLC-loads/                                                     (64.29%)
+     <not counted>      cpu_atom/LLC-load-misses/                                               (0.00%)
+            10,073      cpu_core/LLC-load-misses/        #    1.12% of all LL-cache accesses    (28.57%)
+     <not counted>      cpu_atom/branch-instructions/                                           (0.00%)
+     5,506,044,490      cpu_core/branch-instructions/                                           (35.71%)
+     <not counted>      cpu_atom/branch-misses/                                                 (0.00%)
+         5,648,234      cpu_core/branch-misses/          #    0.10% of all branches             (42.85%)
+     <not counted>      cpu_atom/dTLB-loads/                                                    (0.00%)
+       146,710,794      cpu_core/dTLB-loads/                                                    (42.85%)
+     <not counted>      cpu_atom/dTLB-load-misses/                                              (0.00%)
+             3,283      cpu_core/dTLB-load-misses/       #    0.00% of all dTLB cache accesses  (42.85%)
+               183      context-switches                                                      
+                 0      cpu-migrations                                                        
+   917,392,191,685      cpu_core/TOPDOWN.SLOTS/          #     46.3 %  tma_backend_bound      
+                                                  #      0.8 %  tma_frontend_bound       (50.00%)
+   485,678,219,126      cpu_core/topdown-retiring/                                              (50.00%)
+                 0      cpu_core/topdown-bad-spec/                                              (50.00%)
+     7,195,232,875      cpu_core/topdown-fe-bound/                                              (50.00%)
+   424,518,739,681      cpu_core/topdown-be-bound/                                              (50.00%)
+        21,328,370      cpu_core/INT_MISC.UOP_DROPPING/                                         (50.00%)
+     <not counted>      cpu_atom/CPU_CLK_UNHALTED.CORE/                                         (0.00%)
+     <not counted>      cpu_atom/TOPDOWN_BE_BOUND.ALL/                                          (0.00%)
+     <not counted>      cpu_atom/CPU_CLK_UNHALTED.CORE/                                         (0.00%)
+     <not counted>      cpu_atom/TOPDOWN_FE_BOUND.ALL/                                          (0.00%)
+
+      30.001109074 seconds time elapsed
+
+      30.019626000 seconds user
+       0.002931000 seconds sys
+
+
