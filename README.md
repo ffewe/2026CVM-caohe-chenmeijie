@@ -9,7 +9,6 @@ https://github.com/ffewe/2026CVM-caohe-chenmeijie/blob/main/task1/2-flamegraph/R
 - 考核主题：CPU 微架构性能分析、火焰图定位、Cache Line 微基准、持续 CPU Profiling 工具
 
 ## 完成情况概览
-
 | 题目 | 内容 | 当前状态 | 说明 |
 |---|---|---|---|
 | 题目 1-1 | 多场景微架构指标采集 | 已完成 | 已提供 `perf stat` 运行说明、环境采集方案、结果文件与分析文档骨架 |
