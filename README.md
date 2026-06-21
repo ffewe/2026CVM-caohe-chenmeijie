@@ -126,7 +126,7 @@ https://github.com/ffewe/2026CVM-caohe-chenmeijie/blob/main/task1/2-flamegraph/R
 
 当前仍建议在最终提交前补齐以下材料：
 
-- `resume/resume.pdf`
+- `resume/个人简历.docx`
 - `task1/*/report.pdf`
 - `task1/3-cache-line-test/ai-chat-log/`
 - `task2/profiler.tar`
