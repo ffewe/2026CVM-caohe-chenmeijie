@@ -1,1 +1,4 @@
-cpu-hotspot是主热点，符合预期
+热点函数符合预期
+本次自定义压测程序的火焰图中，主热点集中在 worker_main 和 synthetic_hot_loop，同时可见 matrix_hotspot、reduce_sincos、sin@plt、cos@plt 等相关函数。
+这与源码实现一致：程序在线程入口 worker_main 中循环执行矩阵计算与三角函数混合热点，
+其中 synthetic_hot_loop 的迭代次数更多、数学库调用更密集，因此成为主要热点；matrix_hotspot 也被成功采到，但占比低于 synthetic_hot_loop。
