@@ -25,6 +25,7 @@ WORKDIR /opt/perf-blackbox
 
 COPY src/ /opt/perf-blackbox/src/
 COPY third_party/FlameGraph/ /opt/perf-blackbox/FlameGraph/
+COPY ui-preview.html /opt/perf-blackbox/ui-preview.html
 
 RUN chmod +x /opt/perf-blackbox/src/bin/perfbox \
     && chmod +x /opt/perf-blackbox/FlameGraph/stackcollapse-perf.pl \
@@ -33,7 +34,6 @@ RUN chmod +x /opt/perf-blackbox/src/bin/perfbox \
     && mkdir -p /data/perf /data/output /data/logs
 
 VOLUME ["/data"]
-EXPOSE 8080
 
 ENTRYPOINT ["perfbox"]
 CMD ["web", "--host", "0.0.0.0", "--port", "8080"]

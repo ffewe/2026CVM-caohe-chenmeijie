@@ -61,11 +61,15 @@ def build_parser() -> argparse.ArgumentParser:
     )
     flame.add_argument("--perf-bin", help="perf executable path")
 
-    web = subparsers.add_parser("web", help="serve the Web UI on port 8080")
+    web = subparsers.add_parser("web", help="start the web UI and collector")
     add_common_config(web)
-    web.add_argument("--host", default="127.0.0.1", help="host to bind, default: 127.0.0.1")
-    web.add_argument("--port", type=positive_int, default=8080, help="port to bind, default: 8080")
-    web.add_argument("--no-collector", action="store_true", help="serve the UI without starting a collector subprocess")
+    web.add_argument("--host", default="127.0.0.1", help="bind address for the web server")
+    web.add_argument("--port", type=positive_int, default=8080, help="port for the web server")
+    web.add_argument(
+        "--no-collector",
+        action="store_true",
+        help="serve the UI without starting the collector subprocess",
+    )
 
     return parser
 

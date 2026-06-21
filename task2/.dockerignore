@@ -1,0 +1,4 @@
+data/
+profiler.tar
+**/__pycache__/
+*.pyc

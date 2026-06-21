@@ -22,7 +22,20 @@ from .flame import build_flamegraph, default_flamegraph_dir
 from .query import parse_time
 
 
-UI_PREVIEW_PATH = TASK2_DIR / "ui-preview.html"
+UI_PREVIEW_CANDIDATES = (
+    TASK2_DIR / "ui-preview.html",
+    Path("/opt/perf-blackbox/ui-preview.html"),
+)
+
+
+def resolve_ui_preview_path() -> Path:
+    for candidate in UI_PREVIEW_CANDIDATES:
+        if candidate.exists():
+            return candidate
+    raise FileNotFoundError(
+        "ui-preview.html not found; checked: "
+        + ", ".join(str(candidate) for candidate in UI_PREVIEW_CANDIDATES)
+    )
 
 
 @dataclass(frozen=True)
@@ -272,7 +285,10 @@ def make_handler(state: WebState) -> type[BaseHTTPRequestHandler]:
         def do_GET(self) -> None:  # noqa: N802
             parsed = urlparse(self.path)
             if parsed.path == "/":
-                return self._serve_file(UI_PREVIEW_PATH, "text/html; charset=utf-8")
+                try:
+                    return self._serve_file(resolve_ui_preview_path(), "text/html; charset=utf-8")
+                except FileNotFoundError as exc:
+                    return self._error(HTTPStatus.INTERNAL_SERVER_ERROR, str(exc))
             if parsed.path == "/api/overview":
                 return self._json(build_overview(state))
             if parsed.path == "/api/windows":
@@ -424,4 +440,3 @@ def start_web_server(
             except subprocess.TimeoutExpired:
                 state.collector_process.kill()
     return 0
-

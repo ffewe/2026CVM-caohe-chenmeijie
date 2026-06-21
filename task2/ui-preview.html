@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perf Blackbox 界面预览</title>
+  <title>Perf Blackbox</title>
   <style>
     :root {
       --bg: #f4efe6;
@@ -24,9 +24,7 @@
       --radius: 18px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -82,10 +80,6 @@
       letter-spacing: 0.04em;
     }
 
-    .brand-copy {
-      min-width: 0;
-    }
-
     .brand-copy h1 {
       margin: 0;
       font-size: 1.2rem;
@@ -136,9 +130,7 @@
       animation: fade 180ms ease;
     }
 
-    .page.active {
-      display: block;
-    }
+    .page.active { display: block; }
 
     @keyframes fade {
       from { opacity: 0; transform: translateY(4px); }
@@ -152,7 +144,8 @@
       margin-bottom: 18px;
     }
 
-    .panel {
+    .panel,
+    .diag-card {
       border: 1px solid rgba(73, 60, 37, 0.08);
       border-radius: var(--radius);
       background: var(--panel);
@@ -189,19 +182,24 @@
 
     .hero-grid,
     .metrics-grid,
-    .diag-grid {
+    .diag-grid,
+    .quality-grid {
       display: grid;
       gap: 14px;
     }
 
-    .hero-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
+    .hero-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .metrics-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 18px; }
+    .diag-grid { grid-template-columns: 1.2fr 1fr; }
+    .quality-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: 16px; }
 
-    .stat {
+    .stat,
+    .stack-item,
+    .window-item,
+    .quality-card {
       padding: 14px;
       border-radius: 14px;
-      background: rgba(255, 255, 255, 0.56);
+      background: rgba(255, 255, 255, 0.76);
       border: 1px solid rgba(93, 75, 42, 0.08);
     }
 
@@ -221,7 +219,8 @@
       color: var(--ink);
     }
 
-    .button-row {
+    .button-row,
+    .toolbar-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
@@ -250,21 +249,17 @@
       border: 1px solid rgba(67, 55, 34, 0.1);
     }
 
-    .btn.ghost {
+    .btn.ghost,
+    .tiny-btn {
       color: var(--teal);
       background: var(--teal-soft);
       box-shadow: none;
+      padding: 8px 10px;
+      border-radius: 10px;
     }
 
     .btn:hover,
-    .tiny-btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .metrics-grid {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-bottom: 18px;
-    }
+    .tiny-btn:hover { transform: translateY(-1px); }
 
     .metric {
       padding: 16px;
@@ -289,11 +284,13 @@
       box-shadow: 0 0 0 6px rgba(45, 139, 87, 0.12);
     }
 
-    .section-head {
+    .section-head,
+    .toolbar {
       display: flex;
       align-items: end;
       justify-content: space-between;
       gap: 12px;
+      flex-wrap: wrap;
       margin-bottom: 14px;
     }
 
@@ -304,16 +301,18 @@
       gap: 18px;
     }
 
-    .control-list {
+    .control-list,
+    .list-stack,
+    .window-list {
       display: grid;
-      gap: 12px;
+      gap: 10px;
     }
 
     .field,
     .toggle-row,
     .window-row,
-    .log-line,
-    .diag-row {
+    .diag-row,
+    .log-line {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -354,19 +353,10 @@
     }
 
     .window-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 10px;
       max-height: 380px;
       overflow: auto;
       padding-right: 4px;
-    }
-
-    .window-item {
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(72, 60, 37, 0.08);
-      background: rgba(255, 255, 255, 0.78);
+      margin-top: 10px;
     }
 
     .window-item.active {
@@ -384,40 +374,11 @@
       font-weight: 700;
     }
 
-    .badge.ok {
-      background: rgba(45, 139, 87, 0.12);
-      color: var(--ok);
-    }
+    .badge.ok { background: rgba(45, 139, 87, 0.12); color: var(--ok); }
+    .badge.fail { background: rgba(178, 70, 49, 0.12); color: var(--bad); }
+    .badge.warn { background: rgba(185, 119, 14, 0.12); color: var(--warn); }
 
-    .badge.fail {
-      background: rgba(178, 70, 49, 0.12);
-      color: var(--bad);
-    }
-
-    .badge.warn {
-      background: rgba(185, 119, 14, 0.12);
-      color: var(--warn);
-    }
-
-    .timeline-canvas {
-      display: grid;
-      gap: 16px;
-    }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .toolbar-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .timeline-canvas { display: grid; gap: 16px; }
 
     .timeline-axis {
       display: grid;
@@ -456,14 +417,8 @@
       background: var(--ok);
     }
 
-    .bar.failed {
-      background: var(--bad);
-    }
-
-    .bar.selected {
-      outline: 3px solid rgba(31, 94, 168, 0.22);
-      background: var(--selected);
-    }
+    .bar.failed { background: var(--bad); }
+    .bar.selected { outline: 3px solid rgba(31, 94, 168, 0.22); background: var(--selected); }
 
     .bar:hover::after {
       content: attr(data-tip);
@@ -518,20 +473,6 @@
       background: #fff;
     }
 
-    .quality-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 16px;
-    }
-
-    .quality-card {
-      padding: 14px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.8);
-      border: 1px solid rgba(78, 61, 39, 0.08);
-    }
-
     .log-panel {
       margin-top: 18px;
       background: #201f1b;
@@ -542,17 +483,6 @@
       font-size: 0.92rem;
       display: grid;
       gap: 10px;
-    }
-
-    .diag-grid {
-      grid-template-columns: 1.2fr 1fr;
-    }
-
-    .diag-card {
-      padding: 18px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.78);
-      border: 1px solid rgba(78, 61, 39, 0.08);
     }
 
     .diag-card h3,
@@ -566,28 +496,7 @@
       border-bottom: 1px solid rgba(72, 56, 33, 0.08);
     }
 
-    .diag-row:last-child {
-      border-bottom: 0;
-    }
-
-    .tiny-btn {
-      padding: 8px 10px;
-      border-radius: 10px;
-      background: rgba(32, 122, 114, 0.12);
-      color: var(--teal);
-    }
-
-    .list-stack {
-      display: grid;
-      gap: 10px;
-    }
-
-    .stack-item {
-      padding: 12px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.76);
-      border: 1px solid rgba(76, 58, 34, 0.08);
-    }
+    .diag-row:last-child { border-bottom: 0; }
 
     .empty-note {
       display: grid;
@@ -635,9 +544,7 @@
         grid-template-columns: 1fr;
       }
 
-      .page {
-        padding: 16px;
-      }
+      .page { padding: 16px; }
     }
   </style>
 </head>
@@ -648,14 +555,14 @@
         <div class="brand-badge">PB</div>
         <div class="brand-copy">
           <h1>Perf Blackbox</h1>
-          <p>面向中文使用者的持续 CPU Profiling 控制台预览，聚焦时间回查与火焰图分析。</p>
+          <p>面向中文使用者的持续 CPU Profiling 控制台，聚焦时间回查与火焰图分析。</p>
         </div>
       </div>
       <nav class="tabs" aria-label="Primary">
-        <button class="tab active" data-page="overview">概览</button>
-        <button class="tab" data-page="timeline">时间线</button>
-        <button class="tab" data-page="flamegraph">火焰图</button>
-        <button class="tab" data-page="diagnostics">诊断</button>
+        <button class="tab active" data-page="overview" type="button">概览</button>
+        <button class="tab" data-page="timeline" type="button">时间线</button>
+        <button class="tab" data-page="flamegraph" type="button">火焰图</button>
+        <button class="tab" data-page="diagnostics" type="button">诊断</button>
       </nav>
     </header>
 
@@ -670,18 +577,18 @@
             <div class="hero-grid">
               <div class="stat">
                 <div class="stat-label">采集器</div>
-                <div class="stat-value" id="overview-collector-value">运行中</div>
-                <p class="metric-note" id="overview-collector-note">最近一次心跳在 8 秒前。</p>
+                <div class="stat-value" id="overview-collector-value">--</div>
+                <p class="metric-note" id="overview-collector-note">等待状态...</p>
               </div>
               <div class="stat">
                 <div class="stat-label">最新窗口</div>
-                <div class="stat-value" id="overview-latest-window-value">15:20</div>
-                <p class="metric-note" id="overview-latest-window-note">15:20:00 -> 15:21:00</p>
+                <div class="stat-value" id="overview-latest-window-value">--</div>
+                <p class="metric-note" id="overview-latest-window-note">等待窗口数据...</p>
               </div>
               <div class="stat">
                 <div class="stat-label">Unknown 比例</div>
-                <div class="stat-value" id="overview-unknown-ratio-value">9.79%</div>
-                <p class="metric-note" id="overview-unknown-ratio-note">符号质量为警告级别，但仍可用于定位热点。</p>
+                <div class="stat-value" id="overview-unknown-ratio-value">--</div>
+                <p class="metric-note" id="overview-unknown-ratio-note">生成火焰图后会显示符号质量评估。</p>
               </div>
             </div>
           </article>
@@ -694,47 +601,47 @@
               </div>
             </div>
             <div class="button-row">
-              <button class="btn" data-goto="timeline">选择时间范围</button>
-              <button class="btn secondary" data-goto="flamegraph">查看最新火焰图</button>
-            <button class="btn ghost" id="refresh-overview">刷新概览</button>
-          </div>
-          <div class="list-stack" style="margin-top:18px;">
-            <div class="stack-item">
-              <strong>最近一次 CPU 飙升</strong>
-              <p class="mini-note" id="overview-last-spike">07:40:06 -> 07:42:10 UTC，命中 2 个窗口，预期热点应与 `matrixprod` 相关。</p>
+              <button class="btn" data-goto="timeline" type="button">选择时间范围</button>
+              <button class="btn secondary" data-goto="flamegraph" type="button">查看火焰图</button>
+              <button class="btn ghost" id="refresh-overview" type="button">刷新概览</button>
             </div>
-            <div class="stack-item">
-              <strong>宿主 perf 回退模式</strong>
-              <p class="mini-note" id="overview-fallback-mode">当前通过 `PERF_BIN=/host-perf` 挂载宿主机真实 perf 二进制。</p>
+            <div class="list-stack" style="margin-top:18px;">
+              <div class="stack-item">
+                <strong>最近一次时间段</strong>
+                <p class="mini-note" id="overview-last-spike">等待采样窗口生成...</p>
+              </div>
+              <div class="stack-item">
+                <strong>采集模式</strong>
+                <p class="mini-note" id="overview-fallback-mode">等待运行参数...</p>
+              </div>
+              <div class="stack-item">
+                <strong>磁盘占用</strong>
+                <p class="mini-note" id="overview-storage-note">等待磁盘统计...</p>
+              </div>
             </div>
-            <div class="stack-item">
-              <strong>磁盘占用</strong>
-              <p class="mini-note" id="overview-storage-note">perf 数据约 1.2 GB，SVG 输出约 312 MB，24 小时保留策略生效中。</p>
-            </div>
-          </div>
           </aside>
         </div>
 
         <div class="metrics-grid">
           <article class="metric">
             <div class="metric-label">采集状态</div>
-            <div class="metric-value metric-status"><span class="dot"></span><span id="overview-health-value">健康</span></div>
-            <p class="metric-note" id="overview-health-note">采集锁仍持有，窗口轮转持续推进。</p>
+            <div class="metric-value metric-status"><span class="dot"></span><span id="overview-health-value">--</span></div>
+            <p class="metric-note" id="overview-health-note">等待采集器心跳...</p>
           </article>
           <article class="metric">
             <div class="metric-label">CPU</div>
-            <div class="metric-value" id="overview-cpu-value">73%</div>
-            <p class="metric-note">最近 10 秒平均值。</p>
+            <div class="metric-value" id="overview-cpu-value">--</div>
+            <p class="metric-note">最近 0.15 秒采样结果。</p>
           </article>
           <article class="metric">
             <div class="metric-label">采样目录</div>
-            <div class="metric-value" id="overview-perf-size-value">1.28 GB</div>
-            <p class="metric-note" id="overview-perf-size-note">当前共保留 21 个有效窗口。</p>
+            <div class="metric-value" id="overview-perf-size-value">--</div>
+            <p class="metric-note" id="overview-perf-size-note">等待目录统计...</p>
           </article>
           <article class="metric">
             <div class="metric-label">最近失败</div>
-            <div class="metric-value" id="overview-last-failure-value">2 小时前</div>
-            <p class="metric-note" id="overview-last-failure-note">在启用宿主 perf 回退前，曾出现内核 perf 版本不匹配。</p>
+            <div class="metric-value" id="overview-last-failure-value">--</div>
+            <p class="metric-note" id="overview-last-failure-note">暂无失败记录。</p>
           </article>
         </div>
 
@@ -756,7 +663,7 @@
             </div>
             <div class="stack-item">
               <strong>诊断页</strong>
-              <p class="mini-note">快速复制 fallback 命令，并集中查看最近的失败采集记录。</p>
+              <p class="mini-note">集中查看运行参数、失败窗口和最近日志，减少排查切换成本。</p>
             </div>
           </div>
         </div>
@@ -777,16 +684,16 @@
                 <select id="preset">
                   <option value="1">最近 1 小时</option>
                   <option value="6">最近 6 小时</option>
-                  <option value="24">最近 24 小时</option>
+                  <option value="24" selected>最近 24 小时</option>
                 </select>
               </div>
               <div class="field">
                 <label for="from">开始时间</label>
-                <input id="from" value="2026-06-19 14:00:00">
+                <input id="from" type="datetime-local" step="1">
               </div>
               <div class="field">
                 <label for="to">结束时间</label>
-                <input id="to" value="2026-06-19 15:00:00">
+                <input id="to" type="datetime-local" step="1">
               </div>
               <div class="toggle-row">
                 <label class="toggle"><input type="checkbox" id="only-ok" checked> 只看成功窗口</label>
@@ -795,15 +702,15 @@
                 <label class="toggle"><input type="checkbox" id="show-failed"> 显示失败窗口</label>
               </div>
               <div class="button-row">
-                <button class="btn" id="query-windows">查询窗口</button>
-                <button class="btn secondary" data-goto="flamegraph" id="goto-flamegraph">生成火焰图</button>
+                <button class="btn" id="query-windows" type="button">查询窗口</button>
+                <button class="btn secondary" data-goto="flamegraph" id="goto-flamegraph" type="button">生成火焰图</button>
               </div>
             </div>
 
             <div class="section-head" style="margin-top:18px;">
               <div>
                 <h2 style="font-size:1.15rem;">窗口列表</h2>
-                <p>点击表格行时，时间线中的选中状态也应该同步变化。</p>
+                <p>点击任意窗口时，时间线和已选表格会同步变化。</p>
               </div>
             </div>
             <div class="window-list" id="window-list"></div>
@@ -813,24 +720,16 @@
             <article class="panel">
               <div class="toolbar">
                 <div>
-                  <strong>过去 1 小时</strong>
-                  <p class="mini-note">绿色窗口可直接回查，红色窗口则提醒我们去排查采集链路问题。</p>
+                  <strong id="timeline-title">过去 24 小时</strong>
+                  <p class="mini-note">绿色窗口可直接回查，红色窗口提醒我们去排查采集链路问题。</p>
                 </div>
                 <div class="toolbar-actions">
-                  <button class="btn secondary preset-btn" data-hours="1">最近 1 小时</button>
-                  <button class="btn secondary preset-btn" data-hours="6">最近 6 小时</button>
-                  <button class="btn ghost" id="export-selection">导出选中范围</button>
+                  <button class="btn secondary preset-btn" data-hours="1" type="button">最近 1 小时</button>
+                  <button class="btn secondary preset-btn" data-hours="6" type="button">最近 6 小时</button>
+                  <button class="btn ghost" id="export-selection" type="button">导出选中范围</button>
                 </div>
               </div>
-              <div class="timeline-axis">
-                <span>14:00</span>
-                <span>14:10</span>
-                <span>14:20</span>
-                <span>14:30</span>
-                <span>14:40</span>
-                <span>14:50</span>
-                <span>15:00</span>
-              </div>
+              <div class="timeline-axis" id="timeline-axis"></div>
               <div class="timeline-bars" id="timeline-bars"></div>
             </article>
 
@@ -838,7 +737,7 @@
               <div class="section-head">
                 <div>
                   <h2 style="font-size:1.15rem;">已选窗口</h2>
-                  <p>表格要足够紧凑，才能在排障时被反复扫视而不显得累赘。</p>
+                  <p>表格足够紧凑，适合在排障时被反复扫视。</p>
                 </div>
               </div>
               <table class="table">
@@ -870,28 +769,28 @@
             <div class="control-list">
               <div class="field">
                 <label>当前选择范围</label>
-                <input id="flame-range" value="2026-06-19 07:40:06 -> 2026-06-19 07:42:10">
+                <input id="flame-range" readonly>
               </div>
               <div class="window-row">
                 <span>匹配窗口数</span>
-                <strong id="flame-matched-windows">2</strong>
+                <strong id="flame-matched-windows">0</strong>
               </div>
               <div class="window-row">
                 <span>输出文件</span>
-                <strong id="flame-output-name">docker-verify.svg</strong>
+                <strong id="flame-output-name">--</strong>
               </div>
               <div class="window-row">
                 <span>质量评级</span>
-                <span class="badge warn" id="flame-assessment">警告</span>
+                <span class="badge warn" id="flame-assessment">待生成</span>
               </div>
               <div class="button-row">
-                <button class="btn" id="generate-flame">生成</button>
-                <button class="btn secondary" id="regenerate-flame">重新生成</button>
-                <button class="btn ghost" id="copy-flame-cli">复制 CLI 命令</button>
+                <button class="btn" id="generate-flame" type="button">生成</button>
+                <button class="btn secondary" id="regenerate-flame" type="button">重新生成</button>
+                <button class="btn ghost" id="copy-flame-cli" type="button">复制 CLI 命令</button>
               </div>
               <div class="button-row">
-                <button class="btn secondary" id="download-svg">下载 SVG</button>
-                <button class="btn secondary" data-goto="timeline">返回时间线</button>
+                <button class="btn secondary" id="download-svg" type="button">下载 SVG</button>
+                <button class="btn secondary" data-goto="timeline" type="button">返回时间线</button>
               </div>
             </div>
           </aside>
@@ -904,16 +803,16 @@
                   <p class="mini-note">沿用 FlameGraph 原生 SVG 的交互，支持缩放、搜索和重置视图。</p>
                 </div>
                 <div class="toolbar-actions">
-                  <button class="tiny-btn">独立打开</button>
-                  <button class="tiny-btn">聚焦热点栈</button>
+                  <button class="tiny-btn" id="open-svg" type="button">独立打开</button>
+                  <button class="tiny-btn" id="focus-flame-view" type="button">刷新视图</button>
                 </div>
               </div>
               <div class="svg-shell">
-                <object id="flame-svg" data="./data/output/cpu-2336-2340.svg" type="image/svg+xml">
+                <object id="flame-svg" type="image/svg+xml">
                   <div class="empty-note">
                     <div>
                       <strong>SVG 预览不可用</strong>
-                      <p class="mini-note">如果浏览器阻止本地文件嵌入，最终 Web 版本会通过 HTTP 提供这个 SVG。</p>
+                      <p class="mini-note">请先选择时间范围并生成火焰图。</p>
                     </div>
                   </div>
                 </object>
@@ -923,19 +822,19 @@
             <div class="quality-grid">
               <article class="quality-card">
                 <div class="metric-label">总采样数</div>
-                <div class="metric-value" id="flame-total-samples">10.8B</div>
+                <div class="metric-value" id="flame-total-samples">--</div>
               </article>
               <article class="quality-card">
                 <div class="metric-label">Unknown 采样数</div>
-                <div class="metric-value" id="flame-unknown-samples">1.54B</div>
+                <div class="metric-value" id="flame-unknown-samples">--</div>
               </article>
               <article class="quality-card">
                 <div class="metric-label">Unknown 比例</div>
-                <div class="metric-value" id="flame-unknown-ratio">14.27%</div>
+                <div class="metric-value" id="flame-unknown-ratio">--</div>
               </article>
               <article class="quality-card">
                 <div class="metric-label">评级</div>
-                <div class="metric-value" style="color:var(--warn);" id="flame-assessment-value">警告</div>
+                <div class="metric-value" id="flame-assessment-value">--</div>
               </article>
             </div>
 
@@ -951,9 +850,9 @@
             <p>把失败上下文放在页面里，而不是埋进容器日志深处，减少排查时的来回切换。</p>
           </div>
           <div class="button-row">
-            <button class="btn ghost">刷新诊断</button>
-            <button class="btn secondary">复制 Docker 启动命令</button>
-            <button class="btn secondary">复制宿主 perf 回退命令</button>
+            <button class="btn ghost" id="refresh-diagnostics" type="button">刷新诊断</button>
+            <button class="btn secondary" id="copy-docker-run" type="button">复制 Docker 启动命令</button>
+            <button class="btn secondary" id="copy-host-perf" type="button">复制宿主 perf 回退命令</button>
           </div>
         </div>
         <div class="diag-grid">
@@ -976,281 +875,393 @@
     const pages = [...document.querySelectorAll(".page")];
     const navButtons = [...document.querySelectorAll("[data-goto]")];
     const state = {
+      windows: [],
       selectedWindows: [],
-      rangeFrom: "",
-      rangeTo: "",
-      lastFlame: null,
+      latestSvgUrl: "",
+      latestArtifacts: null,
+      latestFlameStats: null,
     };
 
-    function activate(pageName) {
-      tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.page === pageName));
-      pages.forEach((page) => page.classList.toggle("active", page.id === `page-${pageName}`));
-      if (pageName === "timeline") {
-        loadWindows();
-      }
-      if (pageName === "diagnostics") {
-        loadDiagnostics();
-      }
-    }
-
-    function api(path, options) {
-      return fetch(path, options).then(async (response) => {
-        const payload = await response.json();
-        if (!response.ok) {
-          throw new Error(payload.error || "请求失败");
-        }
-        return payload;
-      });
-    }
-
     function formatBytes(bytes) {
-      if (!Number.isFinite(bytes)) return "0 B";
+      if (!Number.isFinite(bytes) || bytes < 0) {
+        return "--";
+      }
       const units = ["B", "KB", "MB", "GB", "TB"];
       let value = bytes;
-      let unit = 0;
-      while (value >= 1024 && unit < units.length - 1) {
+      let unit = units[0];
+      for (let i = 0; i < units.length; i += 1) {
+        unit = units[i];
+        if (value < 1024 || i === units.length - 1) {
+          break;
+        }
         value /= 1024;
-        unit += 1;
       }
-      return `${value.toFixed(unit === 0 ? 0 : 1)} ${units[unit]}`;
+      return `${value.toFixed(value >= 10 || unit === "B" ? 0 : 1)} ${unit}`;
     }
 
-    function formatTimeRange(window) {
-      return `${window.start_time.replace("T", " ")} -> ${window.end_time.replace("T", " ")}`;
+    function formatIso(isoString) {
+      if (!isoString) return "--";
+      const date = new Date(isoString);
+      if (Number.isNaN(date.getTime())) return isoString;
+      return date.toLocaleString("zh-CN", { hour12: false });
     }
 
-    function renderFlameLogs(lines) {
-      const panel = document.getElementById("flame-log-panel");
-      panel.innerHTML = "";
-      lines.forEach((line) => {
-        const row = document.createElement("div");
-        row.className = "log-line";
-        row.innerHTML = `<span>${line}</span>`;
-        panel.appendChild(row);
+    function toInputValue(isoString) {
+      if (!isoString) return "";
+      const date = new Date(isoString);
+      if (Number.isNaN(date.getTime())) return "";
+      const pad = (n) => String(n).padStart(2, "0");
+      return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+
+    function inputToIso(value) {
+      if (!value) return "";
+      return new Date(value).toISOString();
+    }
+
+    async function fetchJson(url, options) {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || `request failed: ${response.status}`);
+      }
+      return data;
+    }
+
+    function setPage(pageName) {
+      tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.page === pageName));
+      pages.forEach((page) => page.classList.toggle("active", page.id === `page-${pageName}`));
+    }
+
+    function chooseWindows() {
+      const onlyOk = document.getElementById("only-ok").checked;
+      const showFailed = document.getElementById("show-failed").checked;
+      const fromValue = document.getElementById("from").value;
+      const toValue = document.getElementById("to").value;
+      const from = fromValue ? new Date(fromValue) : null;
+      const to = toValue ? new Date(toValue) : null;
+      state.selectedWindows = state.windows.filter((item) => {
+        if (onlyOk && item.status !== "ok") return false;
+        if (!showFailed && item.status === "failed") return false;
+        const start = new Date(item.start_time);
+        const end = new Date(item.end_time);
+        if (from && end < from) return false;
+        if (to && start > to) return false;
+        return true;
       });
+    }
+
+    function renderWindowList() {
+      const root = document.getElementById("window-list");
+      if (!state.windows.length) {
+        root.innerHTML = '<div class="stack-item"><p class="mini-note">当前还没有采样窗口。</p></div>';
+        return;
+      }
+      root.innerHTML = "";
+      state.windows.forEach((item) => {
+        const node = document.createElement("button");
+        node.type = "button";
+        node.className = `window-item${state.selectedWindows.includes(item) ? " active" : ""}`;
+        node.innerHTML = `
+          <div class="window-row">
+            <strong>${formatIso(item.start_time)}</strong>
+            <span class="badge ${item.status === "ok" ? "ok" : "fail"}">${item.status}</span>
+          </div>
+          <p class="mini-note">${formatIso(item.end_time)}</p>
+          <p class="mini-note">${item.basename} | ${formatBytes(item.size_bytes)}</p>
+        `;
+        node.addEventListener("click", () => {
+          document.getElementById("from").value = toInputValue(item.start_time);
+          document.getElementById("to").value = toInputValue(item.end_time);
+          chooseWindows();
+          renderTimeline();
+          renderSelectedWindowTable();
+          renderWindowList();
+          updateFlameRange();
+        });
+        root.appendChild(node);
+      });
+    }
+
+    function renderTimelineAxis() {
+      const axis = document.getElementById("timeline-axis");
+      axis.innerHTML = "";
+      if (!state.windows.length) {
+        axis.innerHTML = "<span>--</span>".repeat(7);
+        return;
+      }
+      const times = state.windows.map((item) => new Date(item.start_time).getTime());
+      const min = Math.min(...times);
+      const max = Math.max(...times);
+      const span = Math.max(max - min, 1);
+      for (let i = 0; i < 7; i += 1) {
+        const value = new Date(min + (span * i) / 6);
+        const label = value.toLocaleTimeString("zh-CN", { hour12: false, hour: "2-digit", minute: "2-digit" });
+        const cell = document.createElement("span");
+        cell.textContent = label;
+        axis.appendChild(cell);
+      }
+    }
+
+    function renderTimeline() {
+      const root = document.getElementById("timeline-bars");
+      root.innerHTML = "";
+      if (!state.windows.length) {
+        root.innerHTML = '<div class="empty-note">当前没有可视化的时间线窗口。</div>';
+        return;
+      }
+      const slices = state.windows.slice(-24);
+      const maxSize = Math.max(...slices.map((item) => item.size_bytes || 1), 1);
+      slices.forEach((item) => {
+        const bar = document.createElement("button");
+        bar.type = "button";
+        const selected = state.selectedWindows.includes(item);
+        bar.className = `bar${item.status === "failed" ? " failed" : ""}${selected ? " selected" : ""}`;
+        const height = Math.max(22, Math.round(((item.size_bytes || 1) / maxSize) * 140));
+        bar.style.height = `${height}px`;
+        bar.dataset.tip = `${formatIso(item.start_time)} | ${item.status} | ${formatBytes(item.size_bytes)}`;
+        bar.addEventListener("click", () => {
+          document.getElementById("from").value = toInputValue(item.start_time);
+          document.getElementById("to").value = toInputValue(item.end_time);
+          chooseWindows();
+          renderWindowList();
+          renderTimeline();
+          renderSelectedWindowTable();
+          updateFlameRange();
+        });
+        root.appendChild(bar);
+      });
+    }
+
+    function renderSelectedWindowTable() {
+      const body = document.getElementById("selected-window-table");
+      if (!state.selectedWindows.length) {
+        body.innerHTML = '<tr><td colspan="5">当前没有命中的窗口。</td></tr>';
+        return;
+      }
+      body.innerHTML = state.selectedWindows.map((item) => `
+        <tr>
+          <td>${formatIso(item.start_time)}</td>
+          <td>${formatIso(item.end_time)}</td>
+          <td>${formatBytes(item.size_bytes)}</td>
+          <td><span class="badge ${item.status === "ok" ? "ok" : "fail"}">${item.status}</span></td>
+          <td>${item.basename}</td>
+        </tr>
+      `).join("");
+    }
+
+    function updateFlameRange() {
+      const first = state.selectedWindows[0];
+      const last = state.selectedWindows[state.selectedWindows.length - 1];
+      document.getElementById("flame-range").value = first && last
+        ? `${formatIso(first.start_time)} -> ${formatIso(last.end_time)}`
+        : "";
+      document.getElementById("flame-matched-windows").textContent = String(state.selectedWindows.length);
+    }
+
+    function renderFlameStats(stats) {
+      if (!stats) return;
+      document.getElementById("flame-total-samples").textContent = String(stats.total_samples);
+      document.getElementById("flame-unknown-samples").textContent = String(stats.unknown_samples);
+      document.getElementById("flame-unknown-ratio").textContent = `${stats.unknown_percent.toFixed(2)}%`;
+      document.getElementById("flame-assessment-value").textContent = stats.assessment;
+      const badge = document.getElementById("flame-assessment");
+      badge.textContent = stats.assessment;
+      badge.className = `badge ${stats.assessment === "acceptable" ? "ok" : stats.assessment === "warning" ? "warn" : "fail"}`;
+      document.getElementById("overview-unknown-ratio-value").textContent = `${stats.unknown_percent.toFixed(2)}%`;
+      document.getElementById("overview-unknown-ratio-note").textContent = `符号质量评级为 ${stats.assessment}。`;
+      document.getElementById("flame-log-panel").innerHTML = [
+        `total samples: ${stats.total_samples}`,
+        `unknown samples: ${stats.unknown_samples}`,
+        `unknown ratio: ${stats.unknown_percent.toFixed(2)}%`,
+        `assessment: ${stats.assessment}`,
+        ...(stats.top_unknown_lines || []).map((item) => `${item.samples} ${item.stack}`),
+      ].map((line) => `<div class="log-line"><span>${line}</span></div>`).join("");
+    }
+
+    function renderOverview(data) {
+      const collector = data.collector || {};
+      const latest = data.latest_window;
+      const failed = data.last_failed_window;
+      document.getElementById("overview-collector-value").textContent = collector.status || "--";
+      document.getElementById("overview-collector-note").textContent = collector.message || "collector status unavailable";
+      document.getElementById("overview-latest-window-value").textContent = latest ? formatIso(latest.start_time).slice(11, 16) : "--";
+      document.getElementById("overview-latest-window-note").textContent = latest ? `${formatIso(latest.start_time)} -> ${formatIso(latest.end_time)}` : "等待窗口数据...";
+      document.getElementById("overview-last-spike").textContent = latest ? `${formatIso(latest.start_time)} -> ${formatIso(latest.end_time)}，最近命中窗口可直接回查。` : "等待采样窗口生成...";
+      document.getElementById("overview-fallback-mode").textContent = `当前 perf 路径：${collector.status ? data.log_tail?.[0] || "见诊断页" : "等待运行参数..."}`;
+      document.getElementById("overview-storage-note").textContent = `perf 数据约 ${formatBytes(data.perf_size_bytes)}，SVG 输出约 ${formatBytes(data.output_size_bytes)}。`;
+      document.getElementById("overview-health-value").textContent = collector.status || "--";
+      document.getElementById("overview-health-note").textContent = collector.message || "等待采集器心跳...";
+      document.getElementById("overview-cpu-value").textContent = `${data.cpu_percent ?? "--"}%`;
+      document.getElementById("overview-perf-size-value").textContent = formatBytes(data.perf_size_bytes);
+      document.getElementById("overview-perf-size-note").textContent = `当前共保留 ${data.valid_window_count ?? 0} 个有效窗口。`;
+      document.getElementById("overview-last-failure-value").textContent = failed ? formatIso(failed.end_time) : "无";
+      document.getElementById("overview-last-failure-note").textContent = failed ? `${failed.basename} | ${failed.status}` : "暂无失败记录。";
+      if (latest) {
+        if (!document.getElementById("from").value) document.getElementById("from").value = toInputValue(latest.start_time);
+        if (!document.getElementById("to").value) document.getElementById("to").value = toInputValue(latest.end_time);
+      }
+      if (data.latest_svg && !state.latestSvgUrl) {
+        state.latestSvgUrl = `/artifacts/output/${data.latest_svg}`;
+        document.getElementById("flame-svg").data = state.latestSvgUrl;
+        document.getElementById("flame-output-name").textContent = data.latest_svg;
+      }
+    }
+
+    function renderDiagnostics(data) {
+      const runtimeRoot = document.getElementById("diagnostics-runtime");
+      const failuresRoot = document.getElementById("diagnostics-failures");
+      const runtime = data.runtime || {};
+      runtimeRoot.innerHTML = Object.entries(runtime).map(([key, value]) => `
+        <div class="diag-row">
+          <span>${key}</span>
+          <strong>${value}</strong>
+        </div>
+      `).join("");
+      const failures = data.recent_failures || [];
+      failuresRoot.innerHTML = failures.length
+        ? failures.map((item) => `
+            <div class="stack-item">
+              <strong>${item.basename || item.path}</strong>
+              <p class="mini-note">${formatIso(item.start_time)} -> ${formatIso(item.end_time)}</p>
+              <p class="mini-note">${item.status} | exit=${item.exit_code} | ${formatBytes(item.size_bytes)}</p>
+            </div>
+          `).join("")
+        : '<div class="stack-item"><p class="mini-note">最近没有失败窗口。</p></div>';
     }
 
     async function loadOverview() {
-      const overview = await api("/api/overview");
-      const latest = overview.latest_window;
-      const failed = overview.last_failed_window;
-      document.getElementById("overview-collector-value").textContent = overview.collector.status === "running" ? "运行中" : "未运行";
-      document.getElementById("overview-collector-note").textContent = overview.collector.message;
-      document.getElementById("overview-latest-window-value").textContent = latest ? latest.start_time.slice(11, 16) : "--:--";
-      document.getElementById("overview-latest-window-note").textContent = latest ? formatTimeRange(latest) : "暂无采样窗口";
-      document.getElementById("overview-cpu-value").textContent = `${overview.cpu_percent}%`;
-      document.getElementById("overview-perf-size-value").textContent = formatBytes(overview.perf_size_bytes);
-      document.getElementById("overview-perf-size-note").textContent = `当前共保留 ${overview.valid_window_count} 个有效窗口。`;
-      document.getElementById("overview-last-failure-value").textContent = failed ? failed.start_time.slice(11, 16) : "无";
-      document.getElementById("overview-last-failure-note").textContent = failed ? `${failed.basename} · exit=${failed.exit_code}` : "最近没有失败窗口。";
-      document.getElementById("overview-health-value").textContent = overview.collector.status === "running" ? "健康" : "需检查";
-      document.getElementById("overview-health-note").textContent = overview.log_tail.length ? overview.log_tail[overview.log_tail.length - 1] : overview.collector.message;
-      document.getElementById("overview-storage-note").textContent = `perf 数据约 ${formatBytes(overview.perf_size_bytes)}，SVG 输出约 ${formatBytes(overview.output_size_bytes)}。`;
-      document.getElementById("overview-fallback-mode").textContent = `FLAMEGRAPH_DIR 由服务端解析，当前最新 SVG：${overview.latest_svg || "暂无"}`;
-      document.getElementById("overview-last-spike").textContent = latest ? `${formatTimeRange(latest)}，当前总窗口数 ${overview.total_window_count}。` : "暂无可回查窗口。";
-      document.getElementById("overview-unknown-ratio-value").textContent = state.lastFlame ? `${state.lastFlame.folded_stats.unknown_percent.toFixed(2)}%` : "待生成";
-      document.getElementById("overview-unknown-ratio-note").textContent = state.lastFlame ? `符号质量评级：${state.lastFlame.folded_stats.assessment}` : "生成火焰图后会显示符号质量。";
-    }
-
-    function renderWindowList(windows) {
-      const list = document.getElementById("window-list");
-      list.innerHTML = "";
-      windows.forEach((window, index) => {
-        const item = document.createElement("article");
-        item.className = `window-item${index < state.selectedWindows.length && state.selectedWindows.some((w) => w.path === window.path) ? " active" : ""}`;
-        item.innerHTML = `
-          <div class="window-row">
-            <strong>${window.start_time.slice(11, 19)} -> ${window.end_time.slice(11, 19)}</strong>
-            <span class="badge ${window.status === "ok" ? "ok" : "fail"}">${window.status === "ok" ? "成功" : "失败"}</span>
-          </div>
-          <p class="mini-note">${formatBytes(window.size_bytes)} · ${window.basename}</p>
-        `;
-        item.addEventListener("click", () => {
-          state.selectedWindows = [window];
-          state.rangeFrom = window.start_time;
-          state.rangeTo = window.end_time;
-          document.getElementById("from").value = window.start_time.replace("T", " ");
-          document.getElementById("to").value = window.end_time.replace("T", " ");
-          renderWindowList(windows);
-          renderSelectedTable();
-        });
-        list.appendChild(item);
-      });
-    }
-
-    function renderTimelineBars(windows) {
-      const bars = document.getElementById("timeline-bars");
-      bars.innerHTML = "";
-      if (!windows.length) {
-        bars.innerHTML = '<div class="empty-note" style="grid-column: 1 / -1; min-height: 140px;">当前时间范围内没有窗口。</div>';
-        return;
-      }
-      const maxSize = Math.max(...windows.map((window) => window.size_bytes || 1));
-      windows.slice(0, 24).forEach((window) => {
-        const bar = document.createElement("div");
-        const selected = state.selectedWindows.some((selectedWindow) => selectedWindow.path === window.path);
-        bar.className = `bar${window.status !== "ok" ? " failed" : ""}${selected ? " selected" : ""}`;
-        bar.style.height = `${Math.max(20, (window.size_bytes / maxSize) * 100)}%`;
-        bar.dataset.tip = `${window.start_time.slice(11, 16)} 窗口 · ${window.status === "ok" ? "成功" : "失败"} · ${formatBytes(window.size_bytes)}`;
-        bar.addEventListener("click", () => {
-          state.selectedWindows = [window];
-          state.rangeFrom = window.start_time;
-          state.rangeTo = window.end_time;
-          document.getElementById("from").value = window.start_time.replace("T", " ");
-          document.getElementById("to").value = window.end_time.replace("T", " ");
-          renderTimelineBars(windows);
-          renderWindowList(windows);
-          renderSelectedTable();
-        });
-        bars.appendChild(bar);
-      });
-    }
-
-    function renderSelectedTable() {
-      const tbody = document.getElementById("selected-window-table");
-      tbody.innerHTML = "";
-      state.selectedWindows.forEach((window) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${window.start_time.replace("T", " ")}</td>
-          <td>${window.end_time.replace("T", " ")}</td>
-          <td>${formatBytes(window.size_bytes)}</td>
-          <td><span class="badge ${window.status === "ok" ? "ok" : "fail"}">${window.status === "ok" ? "成功" : "失败"}</span></td>
-          <td>${window.basename}</td>
-        `;
-        tbody.appendChild(row);
-      });
+      const data = await fetchJson("/api/overview");
+      renderOverview(data);
+      return data;
     }
 
     async function loadWindows() {
       const hours = document.getElementById("preset").value;
-      const includeFailed = document.getElementById("show-failed").checked;
-      const onlyOk = document.getElementById("only-ok").checked;
-      const payload = await api(`/api/windows?hours=${hours}&include_failed=${includeFailed ? "1" : "0"}`);
-      let windows = payload.windows;
-      if (onlyOk) {
-        windows = windows.filter((window) => window.queryable);
-      }
-      if (!state.selectedWindows.length && windows.length) {
-        state.selectedWindows = [windows[0]];
-        state.rangeFrom = windows[0].start_time;
-        state.rangeTo = windows[0].end_time;
-        document.getElementById("from").value = windows[0].start_time.replace("T", " ");
-        document.getElementById("to").value = windows[0].end_time.replace("T", " ");
-      }
-      renderTimelineBars(windows);
-      renderWindowList(windows);
-      renderSelectedTable();
-    }
-
-    async function queryRange() {
-      const from = document.getElementById("from").value.trim().replace(" ", "T");
-      const to = document.getElementById("to").value.trim().replace(" ", "T");
-      const payload = await api(`/api/query?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`);
-      state.selectedWindows = payload.windows.filter((window) => window.queryable);
-      state.rangeFrom = from;
-      state.rangeTo = to;
-      renderTimelineBars(payload.windows);
-      renderWindowList(payload.windows);
-      renderSelectedTable();
-    }
-
-    function updateFlameView(result) {
-      state.lastFlame = result;
-      document.getElementById("flame-range").value = `${state.rangeFrom} -> ${state.rangeTo}`;
-      document.getElementById("flame-matched-windows").textContent = String(result.windows);
-      document.getElementById("flame-output-name").textContent = result.svg;
-      document.getElementById("flame-assessment").textContent = result.folded_stats.assessment;
-      document.getElementById("flame-assessment-value").textContent = result.folded_stats.assessment;
-      document.getElementById("flame-total-samples").textContent = String(result.folded_stats.total_samples);
-      document.getElementById("flame-unknown-samples").textContent = String(result.folded_stats.unknown_samples);
-      document.getElementById("flame-unknown-ratio").textContent = `${result.folded_stats.unknown_percent.toFixed(2)}%`;
-      document.getElementById("flame-svg").data = `${result.artifact_urls.svg}?t=${Date.now()}`;
-      renderFlameLogs([
-        `匹配到 ${result.windows} 个 perf.data 窗口`,
-        `perfscript: ${result.perfscript}`,
-        `folded: ${result.folded}`,
-        `svg: ${result.svg}`,
-      ]);
-      loadOverview();
-    }
-
-    async function generateFlame() {
-      const from = document.getElementById("from").value.trim().replace(" ", "T");
-      const to = document.getElementById("to").value.trim().replace(" ", "T");
-      state.rangeFrom = from;
-      state.rangeTo = to;
-      const payload = await api("/api/flame", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({from, to}),
-      });
-      updateFlameView(payload);
-      activate("flamegraph");
+      document.getElementById("timeline-title").textContent = `过去 ${hours} 小时`;
+      const data = await fetchJson(`/api/windows?hours=${encodeURIComponent(hours)}&include_failed=1`);
+      state.windows = data.windows || [];
+      chooseWindows();
+      renderTimelineAxis();
+      renderWindowList();
+      renderTimeline();
+      renderSelectedWindowTable();
+      updateFlameRange();
     }
 
     async function loadDiagnostics() {
-      const payload = await api("/api/diagnostics");
-      const runtime = document.getElementById("diagnostics-runtime");
-      runtime.innerHTML = `
-        <div class="diag-row"><span>采集模式</span><strong>${payload.collector.status === "running" ? "已运行" : "未运行"}</strong></div>
-        <div class="diag-row"><span>DATA_DIR</span><strong>${payload.runtime.data_dir}</strong></div>
-        <div class="diag-row"><span>FLAMEGRAPH_DIR</span><strong>${payload.runtime.flamegraph_dir}</strong></div>
-        <div class="diag-row"><span>PERF_BIN</span><strong>${payload.runtime.perf_bin}</strong></div>
-        <div class="diag-row"><span>保留时长</span><strong>${payload.runtime.retention_hours} 小时</strong></div>
-        <div class="diag-row"><span>窗口长度</span><strong>${payload.runtime.window_seconds} 秒</strong></div>
-      `;
-      const failures = document.getElementById("diagnostics-failures");
-      failures.innerHTML = "";
-      if (!payload.recent_failures.length) {
-        failures.innerHTML = '<div class="stack-item"><p class="mini-note">最近没有失败窗口。</p></div>';
-      } else {
-        payload.recent_failures.slice().reverse().forEach((failure) => {
-          const item = document.createElement("div");
-          item.className = "stack-item";
-          item.innerHTML = `
-            <div class="window-row">
-              <strong>${failure.start_time.replace("T", " ")}</strong>
-              <span class="badge fail">exit ${failure.exit_code}</span>
-            </div>
-            <p class="mini-note">${failure.basename} · ${failure.path_exists ? "文件仍存在" : "文件已缺失"}</p>
-          `;
-          failures.appendChild(item);
-        });
+      const data = await fetchJson("/api/diagnostics");
+      renderDiagnostics(data);
+      return data;
+    }
+
+    async function generateFlame() {
+      if (!state.selectedWindows.length) {
+        alert("请先在时间线页选择有效窗口。");
+        setPage("timeline");
+        return;
+      }
+      const first = state.selectedWindows[0];
+      const last = state.selectedWindows[state.selectedWindows.length - 1];
+      const result = await fetchJson("/api/flame", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: first.start_time,
+          to: last.end_time,
+        }),
+      });
+      state.latestArtifacts = result.artifact_urls;
+      state.latestFlameStats = result.folded_stats;
+      state.latestSvgUrl = result.artifact_urls.svg;
+      document.getElementById("flame-svg").data = `${result.artifact_urls.svg}?ts=${Date.now()}`;
+      document.getElementById("flame-output-name").textContent = result.svg;
+      document.getElementById("flame-matched-windows").textContent = String(result.windows);
+      renderFlameStats(result.folded_stats);
+      setPage("flamegraph");
+    }
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text).catch(() => {});
+    }
+
+    function downloadFile(url, filename) {
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      link.rel = "noopener";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    async function refreshAll() {
+      try {
+        await Promise.all([loadOverview(), loadWindows(), loadDiagnostics()]);
+      } catch (error) {
+        console.error(error);
       }
     }
 
-    function copyFlameCommand() {
-      const command = `perfbox flame --from "${state.rangeFrom}" --to "${state.rangeTo}" --data-dir /data/perf`;
-      navigator.clipboard.writeText(command).catch(() => {});
-    }
-
     tabs.forEach((tab) => {
-      tab.addEventListener("click", () => activate(tab.dataset.page));
+      tab.addEventListener("click", () => setPage(tab.dataset.page));
     });
-
     navButtons.forEach((button) => {
-      button.addEventListener("click", () => activate(button.dataset.goto));
+      button.addEventListener("click", () => setPage(button.dataset.goto));
     });
-
     document.getElementById("refresh-overview").addEventListener("click", loadOverview);
-    document.getElementById("query-windows").addEventListener("click", queryRange);
-    document.getElementById("generate-flame").addEventListener("click", generateFlame);
-    document.getElementById("regenerate-flame").addEventListener("click", generateFlame);
-    document.getElementById("goto-flamegraph").addEventListener("click", generateFlame);
-    document.getElementById("copy-flame-cli").addEventListener("click", copyFlameCommand);
-    document.getElementById("show-failed").addEventListener("change", loadWindows);
-    document.getElementById("only-ok").addEventListener("change", loadWindows);
-    document.getElementById("preset").addEventListener("change", loadWindows);
+    document.getElementById("query-windows").addEventListener("click", async () => {
+      chooseWindows();
+      renderWindowList();
+      renderTimeline();
+      renderSelectedWindowTable();
+      updateFlameRange();
+    });
     document.querySelectorAll(".preset-btn").forEach((button) => {
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         document.getElementById("preset").value = button.dataset.hours;
-        loadWindows();
+        await loadWindows();
       });
     });
+    document.getElementById("preset").addEventListener("change", loadWindows);
+    document.getElementById("goto-flamegraph").addEventListener("click", generateFlame);
+    document.getElementById("generate-flame").addEventListener("click", generateFlame);
+    document.getElementById("regenerate-flame").addEventListener("click", generateFlame);
+    document.getElementById("focus-flame-view").addEventListener("click", () => {
+      if (state.latestSvgUrl) {
+        document.getElementById("flame-svg").data = `${state.latestSvgUrl}?ts=${Date.now()}`;
+      }
+    });
+    document.getElementById("open-svg").addEventListener("click", () => {
+      if (state.latestSvgUrl) window.open(state.latestSvgUrl, "_blank", "noopener");
+    });
+    document.getElementById("download-svg").addEventListener("click", () => {
+      if (!state.latestSvgUrl) return;
+      const outputName = document.getElementById("flame-output-name").textContent || "flamegraph.svg";
+      downloadFile(state.latestSvgUrl, outputName);
+    });
+    document.getElementById("copy-flame-cli").addEventListener("click", () => {
+      if (!state.selectedWindows.length) return;
+      const first = state.selectedWindows[0];
+      const last = state.selectedWindows[state.selectedWindows.length - 1];
+      copyText(`docker exec cpu-profiler perfbox flame --from "${first.start_time}" --to "${last.end_time}" --data-dir /data/perf --output /data/output/manual.svg`);
+    });
+    document.getElementById("export-selection").addEventListener("click", () => {
+      if (!state.selectedWindows.length) return;
+      const first = state.selectedWindows[0];
+      const last = state.selectedWindows[state.selectedWindows.length - 1];
+      copyText(`${first.start_time} -> ${last.end_time}`);
+    });
+    document.getElementById("refresh-diagnostics").addEventListener("click", loadDiagnostics);
+    document.getElementById("copy-docker-run").addEventListener("click", () => {
+      copyText('docker run --privileged -d -p 8080:8080 --name cpu-profiler cpu-profiler:latest');
+    });
+    document.getElementById("copy-host-perf").addEventListener("click", () => {
+      copyText('PERF_HOST="$(readlink -f /usr/lib/linux-tools/$(uname -r)/perf)"\ndocker run --privileged --pid=host -d -p 8080:8080 --name cpu-profiler -e PERF_BIN=/host-perf -v "$PERF_HOST:/host-perf:ro" -v "$(pwd)/data:/data" cpu-profiler:latest');
+    });
 
-    loadOverview();
-    loadWindows();
+    refreshAll();
+    setInterval(loadOverview, 15000);
   </script>
 </body>
 </html>
